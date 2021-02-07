@@ -9,38 +9,46 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'VundleVim/Vundle.vim'
  Plugin 'morhetz/gruvbox'
 " Plugin 'scrooloose/syntastic'
+ "Plugin 'SirVer/ultisnips'
+ Plugin 'bfrg/vim-cpp-modern'
+ Plugin 'joshdick/onedark.vim'
+ Plugin 'itchyny/lightline.vim'
+ Plugin 'glepnir/oceanic-material'
+ Plugin 'kristijanhusak/vim-hybrid-material'
  Plugin 'honza/vim-snippets'
  Plugin 'weirongxu/coc-explorer'
  Plugin 'vim-syntastic/syntastic' 
  Plugin 'preservim/nerdtree'
+ Plugin 'tpope/vim-fugitive'
+ Plugin 'tpope/vim-surround'
+ Plugin 'tpope/vim-commentary'
+ Plugin 'vim-airline/vim-airline' 
+ Plugin 'vim-airline/vim-airline-themes'
+ Plugin 'ryanoasis/vim-devicons'
+ Plugin 'mhartington/oceanic-next'
+ "Plugin 'jiangmiao/auto-pairs'
+ "Plugin 'dracula/vim', { 'name': 'dracula' }
+ Plugin 'doums/darcula'
+ "Plugin 'sheerun/vim-polyglot'
+ Plugin 'gruvbox-material/vim', {'as': 'gruvbox-material'}
+ "Plugin 'krasjet/auto.pairs'
  call vundle#end()            " required
-
+          
 
  filetype plugin indent on    " required
 " " To ignore plugin indent changes, instead use:
 " "filetype plugin on
 " "
-" " Brief help
-" " :PluginList       - lists configured plugins
-" " :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" " :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-" "
-" " see :h vundle for more details or wiki for FAQ
-" " Put your non-Plugin stuff after this line
-
+"set linespace=12
 set number
 set relativenumber
 syntax on
-set clipboard=unnamedplus
+set clipboard=unnamed
+
 
 "###################### paste toggle #################
 set pastetoggle=<F2>
 
-"################# python loading
-"let g:python3_host_prog = 'C:\Users\Md.Mahedi Hassan\AppData\Local\Programs\Python\Python37-32\python.exe'
 
 "################ auto save #################
 augroup AUTOSAVE
@@ -57,14 +65,15 @@ augroup END
  nnoremap te :tabedit<Space>
  "so save this first we have to press mq then mr  
  nnoremap mr :w<CR> 
+ "this doesn't work in gitbash , but works well in cmd
+ nnoremap tt :terminal<CR> 
+"#########:### Remap ######### split navigation
 
-"############# Remap ######### split navigation
- 
  nnoremap <C-h> <C-w>h
  nnoremap <C-j> <C-w>j
  nnoremap <C-k> <C-w>k
  nnoremap <C-l> <C-w>l
-
+" nnoremap K <nop>
 "######### Make adjusting split size  a bit more friendly ################
  noremap <silent> <C-Left> :vertical resize +3<CR>
  noremap <silent> <C-Right> :vertical resize -3<CR>
@@ -73,28 +82,73 @@ augroup END
  
 
  nnoremap mt :NERDTreeToggle<CR>
-"let g:netrw_banner = 0
-"let g:netrw_liststyle = 3
-"let g:netrw_browse_split = 4
-"let g:netrw_altv = 1
-"let g:netrw_winsize = 25
-"augroup ProjectDrawer
-"      autocmd!
-"      autocmd VimEnter * :Vexplore
-"augroup END
-    
+" nnoremap <leader>n: NERDTreeFocus<CR>
+ 
+ "############# new settings #######
+ set splitbelow splitright 
+" set splitbelow
+" set foldmethod=indent
+" set foldlevel=99
+ "enable folding with sapce bar
+" nnoremap <space> za 
 
- "set cursorline 
- autocmd InsertEnter * highlight CursorLine guibg=#000050 guifg=fg
- autocmd InsertLeave * highlight CursorLine guibg=#004000 guifg=fg
+ "################ move visually selected lines up and down in various mode 
+" nnoremap <A-j> :m+<CR>==
+" nnoremap <A-k> :m-2<CR>==
+" inoremap <A-j> <Esc>:m+<CR>==gi
+" inoremap <A-k> <Esc>:m-2<CR>==gi
+" vnoremap <A-j> :m '>+<CR>gv=gv
+" vnoremap <A-k> :m-2<CR>gv=g
+"
+"
+"
+" ################ cpp-modern settins ############
+
+" Disable function highlighting (affects both C and C++ files)
+"let g:cpp_no_function_highlight = 1
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight =1 
+
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
+" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
+" (affects both C and C++ files)
+let g:cpp_simple_highlight = 1
 
 
+nnoremap <S-Up> :m-2<CR>
+nnoremap <S-Down> :m+<CR>
+inoremap <S-Up> <Esc>:m-2<CR>
+inoremap <S-Down> <Esc>:m+<CR>
+
+"nnoremap <silent> ,<S-Up>   :<C-u>move-2<CR>==
+
+let g:indent_guides_auto_colors = 0
+"hi IndentGuidesOdd  guifg=#27292A guibg=#212324 ctermbg=235
+"hi IndentGuidesEven guifg=#212324 guibg=#27292A ctermbg=236
+
+"############## lightline ##############
+
+let g:airline_theme='onedark'
+"let g:lightline = { 'colorscheme': 'darculaOriginal' }
+"set cursorline 
+"autocmd InsertEnter * highlight CursorLine guibg=#000050 guifg=fg
+"autocmd InsertLeave * highlight CursorLine guibg=#004000 guifg=fg
+
+"set dir= ~\\vimfiles\\.swap
+"set backupdir = ~\\vimfiles\\.backup
+"set udir = ~\\vimfiles\\.undo
+
+
+
+let g:airline_powerline_fonts = 1
 
  set path+=**
  set wildmenu
  set showcmd
- set mouse=a 
- set encoding=utf-8
+ set mouse=a
+" set mouse=ar
+ set selectmode+=mouse
 " set cursorline 
   "copy
  noremap<C-c> "+y
@@ -126,36 +180,36 @@ augroup END
  nnoremap $ <nop>
  nnoremap ^ <nop>
 
+nnoremap  cp :%y+<CR>
+ "######################## NERDTree ##########
+ let g:NERDTreeShowHidden = 1
+ let g:NERDTreeMinimalUI = 1
+ let g:NERDTreeIgnore = []
+ let g:NERDTreeStatusline = ''
+
 
  "=========indentation ===========
  set backspace=indent,eol,start
  set autoindent
  set cindent 
- set noundofile
  set smarttab
  set smartindent
  set shiftwidth=4
  set tabstop=4 "column per tabs
  set expandtab
-  
- 
+" set noswapfile
+" set nobackup
+" set nowritebackup
+" set nowb
+" set noundofile
+ "set macligatures
  
 "==========searching ============
 "Ignore case while searching
 set ignorecase
-
-"incremental searching
-
 set incsearch
-
-"when searching try to be smart about cases
 set smartcase
-
-"hightlight search results
 set hlsearch
-
-"toggle search highlighting 
-
 nnoremap<F3> : set hlsearch!<CR>
 
 "=======================Abbreviations ============
@@ -200,20 +254,23 @@ au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.cs,*.rkt,*.h,*.html
     \ set fileformat=unix |
 set encoding=utf-8
 
-
-"filetype plugin on 
+"syntax enable
+"packadd! dracula
 set background=dark
-colorscheme gruvbox 
-
-"################Auto save ################
-"autocmd TextChanged,TextChangedI <buffer> silent write
+set termguicolors
+" possible values are : hard,medium(default),soft
+"let g:gruvbox_material_background='hard'
+colorscheme darcula 
+"hybrid_material, grubvox-material,OceanicNext,oceanic_matetial
+"########## auto pairs ####### 
+ let g:AutoPairsFlyMode = 1
 
 "################ NERD TREE ##############
 "nnoremap <leader>n :NERDTreeFocus<CR>
 "nnoremap <C-n> :NERDTree<CR>
 "nnoremap <C-t> :NERDTreeToggle<CR>
 "nnoremap <C-f> :NERDTreeFind<CRDTreeWinPos = "left"
- let g:NtreeWinPos = "left"
+ "let g:NtreeWinPos = "left"
 
 "################# teminal window in vertical ##########
 let mapleader=","
@@ -227,6 +284,15 @@ let g:workspace_autosave_always = 1
 
 "set sw = 140
 
+
+"############# UltiSnips ###############
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+
+
+
 if has("gui_running")
   if has("gui_gtk2")
     set guifont=Inconsolata\ 12
@@ -239,20 +305,24 @@ endif
 source $VIMRUNTIME/vimrc_example.vim
 
 au GUIEnter * simalt ~x
-"set hls
-"set is
-"set cb=unnamed
-"set ts=4
-"set sw=4
-"set si
 
-inoremap { {}<Left>
+"########### Autoclose tags #############"
+  
+
 inoremap {<CR> {<CR>}<Esc>O
-inoremap {{ {
-inoremap {} {}
+inoremap ( ()<Left>
+inoremap { {}<Left>
+inoremap [ []<Left>
+inoremap <expr> ) getline('.')[col('.')-1] == ")" ? "\<Right>" : ")"
+inoremap <expr> } getline('.')[col('.')-1] == "}" ? "\<Right>" : "}"
+inoremap <expr> ] getline('.')[col('.')-1] == "]" ? "\<Right>" : "]"
 inoremap mq <esc>
 
 "################# vim-syntastics #####################
+let g:syntastic_cpp_checkers=['clang_check','gcc']
+"let g:syntastic_c_checkers=['make','splint']
+"let g:syntastic_cpp_compiler='g++'
+"let g:syntastic_cpp_compiler_options="-std=c++17 -Wall -Wextra -Wpedantic"
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -266,16 +336,8 @@ let g:syntastic_check_on_wq = 0
 "############### color ############################
 "set t_Co=256
 
-"################## YCM ##################
-"let g:ycm_global_ycm_extra_conf='~/vimfiles/bundle/YouCompleteMe/third_party/.ycm_extra_conf.py'
-"let g:ycm_seed_identifiers_with_syntax=1 
-"let g:ycm_confirm_extra_conf=0
-"let g:ycm_key_invoke_completion = '<C-a>' " ctrl + a
-"let g:ycm_use_clangd=1
 
 "################## C++ compile and run command ######################"
-
-// If you chh
 
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 -O2 -Wall % -o %:r &&  %:r.exe<CR>  
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r -Wl,--stack,268435456<CR>
@@ -286,18 +348,18 @@ let g:syntastic_check_on_wq = 0
 "below this works with cmd
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && %:r <CR>
 
-"Run this in cmd . Here "in" is the file name , here you have to put input data
+"this also works well with cmd and here "in"is the file without extension 
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && %:r.exe < in <CR>
 
-"You have to run this program in gitbash terminal .here you have to create another file named "input.txt", in this file, you have to put input data
+"this works well with gitbash terminal 
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && ./%:r <./input.txt <CR>
 
-"this also works well in gitbash terminal 
+"this also works well with gitbash terminal 
 autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && ./%:r <CR>
+"autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % <cr> :vnew <bar> :te "a.exe" <cr><cr>
 
 
-
-autocmd filetype cpp nnoremap <F10> :!%:r<CR>
+"autocmd filetype cpp nnoremap <F10> :!%:r<CR>
 autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\1<CR> $
 
 "########################## Error Warnings #######################
@@ -305,7 +367,7 @@ let g:syntastic_cpp_compiler_options = '-Wall'
 
 "################# c++ template ###############################
 autocmd BufNewFile  *.cpp 0r ~/vimfiles/template/template.cpp
-autocmd BufWinEnter *.cpp call cursor(71,5)
+autocmd BufWinEnter *.cpp call cursor(72,5)
 
 set nu
 augroup numbertoggle
@@ -313,6 +375,24 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set rnu
     autocmd BufLeave,FocusLost,InsertEnter * set nornu
 augroup END
+
+
+fun SwitchLine(src_line_idx, direction)
+    if a:direction ==# 'up'
+        if a:src_line_idx == 1
+            return
+        endif
+        move-2
+    elseif a:direction ==# 'down'
+        if a:src_line_idx == line('$')
+            return
+        endif
+        move+1
+    endif
+endf
+
+nnoremap <silent> <A-k> :call SwitchLine(line('.'), 'up')<CR>
+nnoremap <silent> <A-j> :call SwitchLine(line('.'), 'down')<CR>
 
 set diffexpr=MyDiff()
 function MyDiff()
@@ -347,26 +427,13 @@ function MyDiff()
     let &shellxquote=l:shxq_sav
   endif
 endfunction
-
- 
- 
-function! ToggleVExplorer()
-  if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
-  else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
-  endif
-endfunction
-map <silent> <C-E> :call ToggleVExplorer()<CR> 
+"set backup
+"set dir=%TMP%
+"set backupdir=%TMP%
+"set directory=%TMP%
+"set noundofile
 "so if you tryin go the this jk
+set nobackup
+set nowritebackup
+set noswapfile
+set noundofile
