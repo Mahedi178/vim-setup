@@ -10,7 +10,7 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'morhetz/gruvbox'
 " Plugin 'scrooloose/syntastic'
  "Plugin 'SirVer/ultisnips'
- Plugin 'bfrg/vim-cpp-modern'
+" Plugin 'bfrg/vim-cpp-modern'
  Plugin 'joshdick/onedark.vim'
  Plugin 'itchyny/lightline.vim'
  Plugin 'glepnir/oceanic-material'
@@ -339,7 +339,8 @@ let g:syntastic_check_on_wq = 0
 
 "################## C++ compile and run command ######################"
 
-"autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 -O2 -Wall % -o %:r &&  %:r.exe<CR>  
+"autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall % -o %:r &&  %:r.exe<CR>  
+autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall -Wno-unused-result % -o %:r &&  %:r.exe<CR>  
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r -Wl,--stack,268435456<CR>
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -Wall -Wextra -Wshadow -fsanitize=undefined -DLOCAL -O -std=c++17 % -o %:r && ./%:r<CR>
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -O2 -Wall -Wextra -DLOCAL -o %:r -Wl,--stack,268435456<CR>
@@ -367,7 +368,7 @@ let g:syntastic_cpp_compiler_options = '-Wall'
 
 "################# c++ template ###############################
 autocmd BufNewFile  *.cpp 0r ~/vimfiles/template/template.cpp
-autocmd BufWinEnter *.cpp call cursor(72,5)
+autocmd BufWinEnter *.cpp call cursor(73,5)
 
 set nu
 augroup numbertoggle
@@ -377,22 +378,6 @@ augroup numbertoggle
 augroup END
 
 
-fun SwitchLine(src_line_idx, direction)
-    if a:direction ==# 'up'
-        if a:src_line_idx == 1
-            return
-        endif
-        move-2
-    elseif a:direction ==# 'down'
-        if a:src_line_idx == line('$')
-            return
-        endif
-        move+1
-    endif
-endf
-
-nnoremap <silent> <A-k> :call SwitchLine(line('.'), 'up')<CR>
-nnoremap <silent> <A-j> :call SwitchLine(line('.'), 'down')<CR>
 
 set diffexpr=MyDiff()
 function MyDiff()
