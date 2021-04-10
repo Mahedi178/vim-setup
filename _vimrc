@@ -26,14 +26,12 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'vim-airline/vim-airline-themes'
  Plugin 'ryanoasis/vim-devicons'
  Plugin 'mhartington/oceanic-next'
- "Plugin 'jiangmiao/auto-pairs'
  "Plugin 'dracula/vim', { 'name': 'dracula' }
+" Plugin 'vim-scripts/AutoComplPop'
  Plugin 'doums/darcula'
- "Plugin 'sheerun/vim-polyglot'
  Plugin 'gruvbox-material/vim', {'as': 'gruvbox-material'}
- "Plugin 'krasjet/auto.pairs'
  call vundle#end()            " required
-          
+           
 
  filetype plugin indent on    " required
 " " To ignore plugin indent changes, instead use:
@@ -45,6 +43,7 @@ set relativenumber
 syntax on
 set clipboard=unnamed
 
+let mapleader=","
 
 "###################### paste toggle #################
 set pastetoggle=<F2>
@@ -273,7 +272,6 @@ colorscheme darcula
  "let g:NtreeWinPos = "left"
 
 "################# teminal window in vertical ##########
-let mapleader=","
 "map<leader>tt: vnew term://bash<CR>
 
 let g:workspace_autosave_always = 1
@@ -310,7 +308,7 @@ au GUIEnter * simalt ~x
   
 
 inoremap {<CR> {<CR>}<Esc>O
-inoremap ( ()<Left>
+"inoremap ( ()<Left>
 inoremap { {}<Left>
 inoremap [ []<Left>
 inoremap <expr> ) getline('.')[col('.')-1] == ")" ? "\<Right>" : ")"
@@ -319,10 +317,13 @@ inoremap <expr> ] getline('.')[col('.')-1] == "]" ? "\<Right>" : "]"
 inoremap mq <esc>
 
 "################# vim-syntastics #####################
-let g:syntastic_cpp_checkers=['clang_check','gcc']
+let g:syntastic_cpp_checkers = ['gcc']
+let g:syntastic_cpp_compiler = 'gcc'
+let g:syntastic_cpp_compiler_options = '-std=c++17 -Wall'
+"let g:syntastic_cpp_checkers=['clang_check','gcc']
 "let g:syntastic_c_checkers=['make','splint']
 "let g:syntastic_cpp_compiler='g++'
-"let g:syntastic_cpp_compiler_options="-std=c++17 -Wall -Wextra -Wpedantic"
+"let g:syntastic_cpp_compiler_options="-std=c++17"
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -364,11 +365,11 @@ autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-resul
 autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\1<CR> $
 
 "########################## Error Warnings #######################
-let g:syntastic_cpp_compiler_options = '-Wall'
+"let g:syntastic_cpp_compiler_options = '-Wall'
 
 "################# c++ template ###############################
 autocmd BufNewFile  *.cpp 0r ~/vimfiles/template/template.cpp
-autocmd BufWinEnter *.cpp call cursor(73,5)
+autocmd BufWinEnter *.cpp call cursor(79,5)
 
 set nu
 augroup numbertoggle
