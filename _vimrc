@@ -22,6 +22,7 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'tpope/vim-fugitive'
  Plugin 'tpope/vim-surround'
  Plugin 'tpope/vim-commentary'
+ Plugin 'tpope/vim-repeat'
  Plugin 'vim-airline/vim-airline' 
  Plugin 'vim-airline/vim-airline-themes'
  Plugin 'ryanoasis/vim-devicons'
@@ -369,7 +370,7 @@ autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\
 
 "################# c++ template ###############################
 autocmd BufNewFile  *.cpp 0r ~/vimfiles/template/template.cpp
-autocmd BufWinEnter *.cpp call cursor(79,5)
+autocmd BufWinEnter *.cpp call cursor(91,5)
 
 set nu
 augroup numbertoggle
