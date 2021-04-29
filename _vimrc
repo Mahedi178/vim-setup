@@ -17,7 +17,8 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'kristijanhusak/vim-hybrid-material'
  Plugin 'honza/vim-snippets'
  Plugin 'weirongxu/coc-explorer'
- Plugin 'vim-syntastic/syntastic' 
+ " Plugin 'vim-syntastic/syntastic' 
+ "Plugin 'yuttie/comfortable-motion.vim'
  Plugin 'preservim/nerdtree'
  Plugin 'tpope/vim-fugitive'
  Plugin 'tpope/vim-surround'
@@ -29,7 +30,11 @@ call vundle#begin('~/vimfiles/bundle')
  Plugin 'mhartington/oceanic-next'
  "Plugin 'dracula/vim', { 'name': 'dracula' }
 " Plugin 'vim-scripts/AutoComplPop'
+ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+ Plugin 'junegunn/fzf.vim'
  Plugin 'doums/darcula'
+ Plugin 'voldikss/vim-floaterm'
+ Plugin 'easymotion/vim-easymotion'
  Plugin 'gruvbox-material/vim', {'as': 'gruvbox-material'}
  call vundle#end()            " required
            
@@ -43,8 +48,13 @@ set number
 set relativenumber
 syntax on
 set clipboard=unnamed
-
-let mapleader=","
+"set hidden
+"set timeoutlen=1000
+"set ttimeoutlen=0
+set lazyredraw
+set ttyfast
+"set wildmode=longest,list,full
+let mapleader=" "
 
 "###################### paste toggle #################
 set pastetoggle=<F2>
@@ -86,27 +96,7 @@ augroup END
  
  "############# new settings #######
  set splitbelow splitright 
-" set splitbelow
-" set foldmethod=indent
-" set foldlevel=99
- "enable folding with sapce bar
-" nnoremap <space> za 
 
- "################ move visually selected lines up and down in various mode 
-" nnoremap <A-j> :m+<CR>==
-" nnoremap <A-k> :m-2<CR>==
-" inoremap <A-j> <Esc>:m+<CR>==gi
-" inoremap <A-k> <Esc>:m-2<CR>==gi
-" vnoremap <A-j> :m '>+<CR>gv=gv
-" vnoremap <A-k> :m-2<CR>gv=g
-"
-"
-"
-" ################ cpp-modern settins ############
-
-" Disable function highlighting (affects both C and C++ files)
-"let g:cpp_no_function_highlight = 1
-" Enable highlighting of C++11 attributes
 let g:cpp_attributes_highlight =1 
 
 " Highlight struct/class member variables (affects both C and C++ files)
@@ -124,23 +114,25 @@ inoremap <S-Down> <Esc>:m+<CR>
 "nnoremap <silent> ,<S-Up>   :<C-u>move-2<CR>==
 
 let g:indent_guides_auto_colors = 0
-"hi IndentGuidesOdd  guifg=#27292A guibg=#212324 ctermbg=235
-"hi IndentGuidesEven guifg=#212324 guibg=#27292A ctermbg=236
 
 "############## lightline ##############
 
 let g:airline_theme='onedark'
-"let g:lightline = { 'colorscheme': 'darculaOriginal' }
-"set cursorline 
-"autocmd InsertEnter * highlight CursorLine guibg=#000050 guifg=fg
-"autocmd InsertLeave * highlight CursorLine guibg=#004000 guifg=fg
 
-"set dir= ~\\vimfiles\\.swap
-"set backupdir = ~\\vimfiles\\.backup
-"set udir = ~\\vimfiles\\.undo
+"####### Floating Terminal ##################
 
+let g:floaterm_gitcommit='floaterm'
+let g:floaterm_autoinsert=1
+let g:floaterm_width=0.8
+let g:floaterm_height=0.8
+let g:floaterm_wintitle=0
+let g:floaterm_autoclose=1
 
-
+hi Floaterm guibg=black
+hi FloatermBorder guibg=orange guifg=cyan
+hi FloatermNC guibg=gray
+nnoremap   <silent>   <F7>   :FloatermToggle<CR>
+tnoremap   <silent>   <F7>   <C-\><C-n>:FloatermToggle<CR>
 let g:airline_powerline_fonts = 1
 
  set path+=**
@@ -173,14 +165,14 @@ let g:airline_powerline_fonts = 1
  vnoremap<S-Tab> <<_
 
  "####### move to beginning/end of line ###########
- nnoremap B ^
- nnoremap E $
+ nnoremap S ^
+ nnoremap s $
  
  "### $/^ can't do anything ###############
- nnoremap $ <nop>
- nnoremap ^ <nop>
+ "nnoremap $ <nop>
+ "nnoremap ^ <nop>
 
-nnoremap  cp :%y+<CR>
+ nnoremap  cp :%y+<CR>
  "######################## NERDTree ##########
  let g:NERDTreeShowHidden = 1
  let g:NERDTreeMinimalUI = 1
@@ -197,13 +189,19 @@ nnoremap  cp :%y+<CR>
  set shiftwidth=4
  set tabstop=4 "column per tabs
  set expandtab
-" set noswapfile
-" set nobackup
-" set nowritebackup
-" set nowb
-" set noundofile
- "set macligatures
- 
+
+
+
+ "########### New settings #################### 
+ set hidden
+ set history=1000
+ set undolevels=1000
+ set wildignore=*.swp,*.bak,*.pyc,*.class
+ set title   "change the terminal title
+ set visualbell   "don't beep
+ set noerrorbells "don't beep
+
+
 "==========searching ============
 "Ignore case while searching
 set ignorecase
@@ -226,6 +224,19 @@ iab funciton function
 iab funcition function
 
 
+"############# Easy motion seutp############
+
+" Use uppercase target labels and type as a lower case
+let g:EasyMotion_use_upper = 1
+ " type `l` and match `l`&`L`
+let g:EasyMotion_smartcase = 1
+" Smartsign (type `3` and match `3`&`#`)
+let g:EasyMotion_use_smartsign_us = 1
+
+"###### power line##########
+
+let g:Powerline_symbols='fancy'
+
 "================== MSC ===========
 "
 ""highlight matching braces
@@ -238,13 +249,13 @@ set mat=0
 "set laststatus = 2
 
 "disable wrapping of long lines into multiple lines
-set nowrap
 
+set nowrap
 "history 
 "set history = 1000
 
 
-au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.cs,*.rkt,*.h,*.html
+au BufNewFile,BufRead *.py,*.java,*.cpp,*.c,*.cs,*.rkt,*.h,*.html,*.txt
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
@@ -284,13 +295,25 @@ let g:workspace_autosave_always = 1
 "set sw = 140
 
 
+
+
 "############# UltiSnips ###############
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-
-
+"############# Terminal Settings#####
+let $TMP="/tmp"
+if has("win32")
+     let &shell='bash.exe'
+     let &shellcmdflag = '-c'
+     let &shellredir = '>%s 2>&1'
+     set shellquote= shellxescape=
+     set noshelltemp
+     set shellxquote=
+     let &shellpipe='2>&1| tee'
+endif
+    
 
 if has("gui_running")
   if has("gui_gtk2")
@@ -342,7 +365,7 @@ let g:syntastic_check_on_wq = 0
 "################## C++ compile and run command ######################"
 
 "autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall % -o %:r &&  %:r.exe<CR>  
-autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall -Wno-unused-result % -o %:r &&  %:r.exe<CR>  
+"autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall -Wno-unused-result % -o %:r &&  %:r.exe<CR>  
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r -Wl,--stack,268435456<CR>
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -Wall -Wextra -Wshadow -fsanitize=undefined -DLOCAL -O -std=c++17 % -o %:r && ./%:r<CR>
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -O2 -Wall -Wextra -DLOCAL -o %:r -Wl,--stack,268435456<CR>
@@ -358,19 +381,21 @@ autocmd filetype cpp nnoremap <F8> :w <bar> !g++ -std=c++17 -O2 -Wall -Wno-unuse
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && ./%:r <./input.txt <CR>
 
 "this also works well with gitbash terminal 
-autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && ./%:r <CR>
+"autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall -Wno-unused-result -std=c++17  -O2  % -o %:r && ./%:r <CR>
+autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 -Wall % -o %:r<CR>
 "autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % <cr> :vnew <bar> :te "a.exe" <cr><cr>
 
 
 "autocmd filetype cpp nnoremap <F10> :!%:r<CR>
+autocmd filetype cpp nnoremap <F10> :!./%:r<CR>
 autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\1<CR> $
-
+"autocmd FileType cpp nnoremap <buffer> <F8> :w<esc>:FloatermNew g++ -std=c++17 % -o<CR>
 "########################## Error Warnings #######################
 "let g:syntastic_cpp_compiler_options = '-Wall'
-
+autocmd FileType cpp nnoremap <buffer> <F8> :w<esc>:FloatermNew g++ % && ./a.out && rm a.out<CR>
 "################# c++ template ###############################
 autocmd BufNewFile  *.cpp 0r ~/vimfiles/template/template.cpp
-autocmd BufWinEnter *.cpp call cursor(91,5)
+autocmd BufWinEnter *.cpp call cursor(92,5)
 
 set nu
 augroup numbertoggle
@@ -414,12 +439,7 @@ function MyDiff()
     let &shellxquote=l:shxq_sav
   endif
 endfunction
-"set backup
-"set dir=%TMP%
-"set backupdir=%TMP%
-"set directory=%TMP%
-"set noundofile
-"so if you tryin go the this jk
+
 set nobackup
 set nowritebackup
 set noswapfile
