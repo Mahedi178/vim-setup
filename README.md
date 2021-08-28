@@ -1,2 +1,2 @@
-i) .vimrc for WSL terminal
-ii) _vimrc for windows pc
+*.vimrc for WSL terminal
+* _vimrc for windows pc
