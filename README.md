@@ -1,1 +1,2 @@
-Copy this into your _vimrc file
+i) .vimrc for WSL terminal
+ii) _vimrc for windows pc
