@@ -18,6 +18,11 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'mattn/emmet-vim'
+Plugin 'andrewradev/tagalong.vim'
+Plugin 'alvan/vim-closetag'
+Plugin 'terryma/vim-multiple-cursors'
+
 call vundle#end()            " required
 
 filetype plugin indent on    " required
@@ -40,7 +45,6 @@ set relativenumber
 syntax on
 set clipboard=unnamedplus
 set scrolloff=5 
-set background=dark
 set termguicolors
 set visualbell
 set noerrorbells
@@ -88,8 +92,8 @@ set history=1000
 set hidden
 set autoread
 set autowrite
-colorscheme darcula 
-
+set background=light
+colorscheme darcula
 
 "############## Abbreviations ###########
 iab wiht with
@@ -243,10 +247,11 @@ let g:airline_powerline_fonts=1
 inoremap {<CR> {<CR>}<Esc>O
 "inoremap ( ()<Left>
 inoremap { {}<Left>
-inoremap [ []<Left>
+"inoremap [ []<Left>
 inoremap <expr> ) getline('.')[col('.')-1] == ")" ? "\<Right>" : ")"
 inoremap <expr> } getline('.')[col('.')-1] == "}" ? "\<Right>" : "}"
 inoremap <expr> ] getline('.')[col('.')-1] == "]" ? "\<Right>" : "]"
+
 inoremap mq <esc>
 
 "############# vim-syntastic #############
@@ -262,6 +267,13 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+
+" ################### Emmet setting ###############
+"
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+let g:user_emmet_leader_key=','
+let g:tagalong_verbose = 1
 
 
 "############# Easy motion seutp############
@@ -317,7 +329,9 @@ autocmd BufWinEnter *.cpp call cursor(96,5)
 "automcd filetype cpp nnoremap <F9> :w <bar> !g++ -ulimit -Wall-Wno-unused-result -std=c++17 -O2  %-o %:r && ./%:r<CR>
 
 autocmd filetype cpp nnoremap <F8> :vertical terminal ++shell ++cols=40 ./%:r <CR>
-autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -Wall -std=c++17 % -o %:r<CR>
+"autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -Wall -std=c++17 % -o %:r<CR>
+autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 -Wall -Wextra -O2 -Wshadow -Wfloat-equal -Wconversion -Wlogical-op -fsanitize=address  % -o %:r<CR>
+"autocmd filetype cpp nnoremap <F9> :w <bar> !g++ -std=c++17 % -o %:r<CR>
 autocmd filetype cpp nnoremap <F10> :!./%:r<CR>
     
 autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\1<CR> $
@@ -326,4 +340,7 @@ autocmd filetype cpp nnoremap <C-C> :s/^\(\s*\)/\1\/\/<CR> :s/^\(\s*\)\/\/\/\//\
 "let g:ycm_global_ycm_conf='/home/mahedi/.vim/.ycm_extra_conf.py'
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 
+"for python
+"let g:ycm_confirm_extra_conf=0
+"let g:ycm_python_binary_path='/usr/bin/python3'
 
